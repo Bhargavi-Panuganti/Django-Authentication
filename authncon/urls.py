@@ -7,5 +7,6 @@ path('login',views.loginv,name='login'),
 path('',views.Register,name='Register'),
 path('dashboard',views.dashboard,name='DB'),
 path('logout',views.logoutv,name='logout'),
+path('download', views.index, name='index'),
 
 ]

@@ -5,6 +5,9 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth import login,logout,authenticate
 from authncon.forms import create
 from django.contrib import messages
+import yt_dlp
+import os
+from pathlib import Path
 def Register(request):
     form=UserCreationForm()
     if request.method=='POST':
@@ -23,7 +26,7 @@ def loginv(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponse('Logged In Successfully..')
+                return redirect('index')
             else:
                 return HttpResponse('Invalid credentials')
     return render(request, 'login.html', {'form': form})
@@ -33,3 +36,23 @@ def dashboard(request):
 def logoutv(request):
     logout(request)
     return redirect('login')
+
+def index(request):
+    message = ''
+    if request.method == 'POST':
+        video_url = request.POST.get('url')
+        if video_url:
+            downloads_path = str(Path.home() / "Downloads")
+            ydl_opts = {
+                'format': 'best',
+                'outtmpl': os.path.join(downloads_path, '%(title)s.%(ext)s'),
+            }
+            try:
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([video_url])
+                message = 'Download completed!'
+            except Exception as e:
+                message = f'Error: {str(e)}'
+
+    return render(request, 'index.html', {'message': message})
+

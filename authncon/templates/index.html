@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <link rel="icon" type="image/png" href="https://png.pngtree.com/element_our/sm/20180506/sm_5aeee59357bbb.png">
+    <style>
+        body{
+            background-image: url('https://www.michiganmedicine.org/sites/default/files/styles/article_main_image/public/blog/young_boy_watching_youtube_on_tablet_in_room.jpg?h=bfaa3d24&itok=ma_0CSrP');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTube Video Downloader</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="url">YouTube URL:</label>
+        <input type="text" id="url" name="url" required>
+        <button type="submit">Download</button>
+    </form>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>
